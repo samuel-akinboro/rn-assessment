@@ -1,26 +1,35 @@
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get("window");
 
 const BookCard = () => {
+  const navigation = useNavigation();
+
+  const handlPress = () => {
+    navigation.navigate('book-details')
+  }
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../assets/images/image-placeholder.png')}
-        style={styles.image}
-      />
-      <View style={styles.details}>
-        <Text style={styles.title}>레이블라우스</Text>
-        <View style={styles.priceDetails}>
-          <Text style={styles.discount}>10%</Text>
-          <Text style={styles.price}>
-            57,600 
-            <Text style={{fontWeight: '500', fontSize: 14}}> 원</Text>
-          </Text>
+    <TouchableOpacity style={styles.container} onPress={handlPress}>
+      <View>
+        <Image
+          source={require('../../assets/images/image-placeholder.png')}
+          style={styles.image}
+        />
+        <View style={styles.details}>
+          <Text style={styles.title}>레이블라우스</Text>
+          <View style={styles.priceDetails}>
+            <Text style={styles.discount}>10%</Text>
+            <Text style={styles.price}>
+              57,600 
+              <Text style={{fontWeight: '500', fontSize: 14}}> 원</Text>
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

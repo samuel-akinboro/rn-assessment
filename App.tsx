@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from './src/screens/Home';
+import BookDetails from './src/screens/BookDetails';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -17,7 +18,10 @@ export default function App() {
             headerTitle: '자유톡'
           }}
         />
-        <Stack.Screen name='book-details' component={Home} />
+        <Stack.Screen 
+          name='book-details'
+          component={BookDetails} 
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
