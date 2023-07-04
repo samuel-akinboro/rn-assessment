@@ -1,9 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import {sizes} from '../theme'
-import Reply from './Reply'
 
-const Comment = () => {
+const Reply = () => {
   return (
     <View style={styles.container}>
       <Image
@@ -33,22 +32,13 @@ const Comment = () => {
             <Image source={require('../../assets/images/heart.png')} style={styles.footerIcon} />
             <Text style={styles.footerIconText}>5</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.footerBtn}>
-            <Image source={require('../../assets/images/comment.png')} style={styles.footerIcon} />
-            <Text style={styles.footerIconText}>5</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Reply />
-          <Reply />
-          <Reply />
         </View>
       </View>
     </View>
   )
 }
 
-export default Comment
+export default Reply
 
 const styles = StyleSheet.create({
   container: {
