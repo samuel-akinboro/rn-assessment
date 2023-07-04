@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-
-const { width } = Dimensions.get("window");
+import { sizes } from '../theme';
 
 const BookCard = () => {
   const navigation = useNavigation();
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: (width -1) / 2
+    height: (sizes.width -1) / 2
   },
   details: {
     padding: 10,

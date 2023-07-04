@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Dimensions, Animated } from 'react-native'
 import React, { useEffect, useState } from 'react'
-
-const { height, width } = Dimensions.get('window')
+import Comment from '../components/Comment';
+import { sizes } from '../theme';
 
 
 const CarouselIndicator = ({ currentIndex }) => {
@@ -62,7 +62,7 @@ function Header() {
 
   const onScrollHandler = (event) => {
     const offsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.round(offsetX / width);
+    const index = Math.round(offsetX / sizes.width);
     setCurrentIndex(index);
   };
 
@@ -81,9 +81,9 @@ function Header() {
               <Image
                 source={require("../../assets/images/image-placeholder.png")}
                 style={{
-                  height: height * 0.35,
+                  height: sizes.height * 0.35,
                   resizeMode: "cover",
-                  width: width
+                  width: sizes.width
                 }}
               />
             </View>
@@ -95,6 +95,20 @@ function Header() {
         />
         <View style={{position: 'absolute', bottom: 20, alignSelf: 'center'}}>
           <CarouselIndicator currentIndex={currentIndex} />
+        </View>
+      </View>
+      <View style={styles.details}>
+        <Text style={styles.title}>Book title</Text>
+        <Text style={styles.description}>
+          Description of the book...
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </Text>
+        <View style={styles.priceDetails}>
+          <Text style={styles.discount}>10%</Text>
+          <Text style={styles.price}>
+            57,600 
+            <Text style={{fontWeight: '500', fontSize: 14}}> 원</Text>
+          </Text>
         </View>
       </View>
     </View>
@@ -114,7 +128,7 @@ const BookDetails = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={['', '', '']}
-        renderItem={({item}) => <View />}
+        renderItem={({item}) => <Comment />}
         ListHeaderComponent={Header()}
       />
     </SafeAreaView>
@@ -137,4 +151,30 @@ const styles = StyleSheet.create({
   dot: {
     opacity: 0.5,
   },
+  details: {
+    padding: 15,
+    gap: 10,
+    borderBottomWidth: 2,
+    borderColor: '#F7F8FA'
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700'
+  },
+  description: {
+    fontSize: 12,
+    lineHeight: 17
+  },
+  priceDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10
+  },
+  discount: {
+    color: '#FF003E'
+  },
+  price: {
+    fontWeight: '700',
+    fontSize: 16
+  }
 })
