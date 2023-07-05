@@ -2,6 +2,7 @@ import { SafeAreaView, StyleSheet, View, RefreshControl, ActivityIndicator } fro
 import React, { useEffect, useRef, useState } from 'react'
 import BookCard from '../components/BookCard'
 import { FlashList } from "@shopify/flash-list";
+import { StatusBar } from 'expo-status-bar';
 
 const DATA_PER_PAGE = 10; // Number of items to fetch per page
 const VIEWABILITY_THRESHOLD = 0.8; // Threshold for triggering data fetch
@@ -54,6 +55,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style='dark' />
       <FlashList
         data={data}
         numColumns={2}
