@@ -3,18 +3,18 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { sizes } from '../theme';
 
-const BookCard = () => {
+const BookCard = ({item}) => {
   const navigation = useNavigation();
 
   const handlPress = () => {
-    navigation.navigate('book-details')
+    navigation.navigate('book-details', {id: item?.id})
   }
 
   return (
     <TouchableOpacity style={styles.container} onPress={handlPress}>
       <View>
         <Image
-          source={require('../../assets/images/image-placeholder.png')}
+          source={{uri: item?.url}}
           style={styles.image}
         />
         <View style={styles.details}>

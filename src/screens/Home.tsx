@@ -52,7 +52,7 @@ const Home = () => {
         ref={flatListRef}
         columnWrapperStyle={{gap: 1}}
         keyExtractor={(item, i) => `${item?.id}-${i}`}
-        renderItem={({item}) => <BookCard />}
+        renderItem={({item}) => <BookCard item={item} />}
         onEndReached={fetchData}
         onEndReachedThreshold={0.8} // Define how close to the end before
         refreshControl={(
