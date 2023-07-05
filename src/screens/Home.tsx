@@ -7,7 +7,7 @@ const DATA_PER_PAGE = 10; // Number of items to fetch per page
 const VIEWABILITY_THRESHOLD = 0.8; // Threshold for triggering data fetch
 
 const Home = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [page, setPage] = useState(1);
@@ -22,7 +22,7 @@ const Home = () => {
       setIsLoading(true);
 
       // Simulate API call
-      const response = await fetch(`https://jsonplaceholder.typicode.com/photos/?_limit=${page * DATA_PER_PAGE}`);
+      const response = await fetch(`https://fakestoreapi.com/products?limit=${page * DATA_PER_PAGE}`);
       const newData = await response.json();
 
       setData([...data, ...newData]);
@@ -34,6 +34,13 @@ const Home = () => {
       setIsRefreshing(false)
     }
   };
+
+  const handleRefresh = () => {
+    setPage(1)
+    setTimeout(() => {
+      fetchData()
+    }, 100)
+  }
 
   function renderFooter() {
     if (!isLoading) return null;
@@ -59,7 +66,7 @@ const Home = () => {
         refreshControl={(
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={fetchData} // Trigger fetchData when the user pulls down to refresh
+            onRefresh={handleRefresh} // Trigger fetchData when the user pulls down to refresh
           />
         )}
         ListFooterComponent={renderFooter}

@@ -1,17 +1,40 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Dimensions, Animated, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Animated, ActivityIndicator, TouchableOpacity, TextInput, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Comment from '../components/Comment';
 import { sizes } from '../theme';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
+type BookDetailsRouteParams = {
+  id: string;
+};
 
-function CarouselIndicator({ currentIndex }) {
+type RootStackParamList = {
+  Home: undefined;
+  BookDetails: { id: string };
+};
+
+type BookDetailsNavigationProp = StackNavigationProp<RootStackParamList, 'BookDetails'>;
+
+type BookDetailsRouteProp = RouteProp<RootStackParamList, 'BookDetails'>;
+
+type Props = {
+  navigation: BookDetailsNavigationProp;
+  route: BookDetailsRouteProp;
+};
+
+type CarouselProp = {
+  currentIndex: number
+}
+
+function CarouselIndicator({ currentIndex }:CarouselProp) {
   const dotSize = 10;
   const dotSpacing = 8;
 
   const dots = [0, 1, 2, 3, 4]; // Number of dots in the carousel
   const [animatedValues] = useState(dots.map(() => new Animated.Value(0)));
 
-  const animateDot = (index) => {
+  const animateDot = (index: number) => {
     Animated.sequence([
       Animated.timing(animatedValues[index], {
         toValue: 1,
@@ -26,7 +49,7 @@ function CarouselIndicator({ currentIndex }) {
     ]).start();
   };
 
-  const dotStyle = (index) => {
+  const dotStyle = (index: number) => {
     const opacity = animatedValues[index].interpolate({
       inputRange: [0, 1],
       outputRange: [0.5, 1],
@@ -48,7 +71,7 @@ function CarouselIndicator({ currentIndex }) {
         <Animated.View
           key={index}
           style={[styles.dot, dotStyle(index)]}
-          onAnimationEnd={() => animateDot(index)}
+          // onAnimationEnd={() => animateDot(index)}
         />
       ))}
     </View>
@@ -56,8 +79,8 @@ function CarouselIndicator({ currentIndex }) {
 };
 
 
-const BookDetails = ({navigation, route}) => {
-  const [data, setData] = useState(null);
+const BookDetails: React.FC<Props> = ({navigation, route}) => {
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   const {id} = route.params;
@@ -79,7 +102,7 @@ const BookDetails = ({navigation, route}) => {
       setLoading(true);
 
       // Simulate API call
-      const response = await fetch(`https://jsonplaceholder.typicode.com/photos/${id}`);
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
       const newData = await response.json();
       setData(newData)
     }catch(error) {
@@ -93,7 +116,7 @@ const BookDetails = ({navigation, route}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollX = React.useRef(new Animated.Value(0)).current;
   
-    const onScrollHandler = (event) => {
+    const onScrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const offsetX = event.nativeEvent.contentOffset.x;
       const index = Math.round(offsetX / sizes.width);
       setCurrentIndex(index);
@@ -103,7 +126,7 @@ const BookDetails = ({navigation, route}) => {
       <View>
         <View>
           <Animated.FlatList 
-            data={Array(5).fill(data?.url)}
+            data={Array(5).fill(data?.image)}
             horizontal
             pagingEnabled
             decelerationRate={0}
@@ -132,15 +155,15 @@ const BookDetails = ({navigation, route}) => {
           </View>
         </View>
         <View style={styles.details}>
-          <Text style={styles.title}>Book title</Text>
+          <Text style={styles.title}>{data?.title}</Text>
           <Text style={styles.description}>
             Description of the book...
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
           </Text>
           <View style={styles.priceDetails}>
-            <Text style={styles.discount}>10%</Text>
+            <Text style={styles.discount}>{data?.rating?.rate}%</Text>
             <Text style={styles.price}>
-              57,600 
+              {data?.price} 
               <Text style={{fontWeight: '500', fontSize: 14}}> 원</Text>
             </Text>
           </View>
@@ -160,6 +183,18 @@ const BookDetails = ({navigation, route}) => {
         renderItem={({item}) => <Comment />}
         ListHeaderComponent={Header}
       />
+      <View style={styles.form}>
+        <TouchableOpacity>
+          <Image source={require('../../assets/images/image-icon.png')} style={styles.pickImageIcon} />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder='댓글을 남겨주세요.'
+        />
+        <TouchableOpacity>
+          <Text style={styles.sendBtnText}>등록</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -205,5 +240,27 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: '700',
     fontSize: 16
+  },
+  form: {
+    height: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15
+  },
+  input: {
+    flex: 1,
+    height: '100%',
+    color: '#AFB9CA',
+    fontSize: 12,
+    paddingHorizontal: 15
+  },
+  pickImageIcon: {
+    height: 20,
+    width: 20,
+    resizeMode: 'contain'
+  },
+  sendBtnText: {
+    color: '#919EB6',
+    fontSize: 12
   }
 })

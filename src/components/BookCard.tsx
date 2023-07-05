@@ -3,7 +3,20 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { sizes } from '../theme';
 
-const BookCard = ({item, style}) => {
+type Props = {
+  item: {
+    id: string;
+    image: string;
+    title: string;
+    price: number;
+    rating: {
+      rate: number
+    }
+  };
+  style: any
+}
+
+const BookCard = ({item, style}: Props) => {
   const navigation = useNavigation();
 
   const handlPress = () => {
@@ -14,15 +27,15 @@ const BookCard = ({item, style}) => {
     <TouchableOpacity style={[styles.container, style]} onPress={handlPress}>
       <View>
         <Image
-          source={{uri: item?.url}}
+          source={{uri: item?.image}}
           style={styles.image}
         />
         <View style={styles.details}>
           <Text style={styles.title}>레이블라우스</Text>
           <View style={styles.priceDetails}>
-            <Text style={styles.discount}>10%</Text>
+            <Text style={styles.discount}>{item?.rating?.rate}%</Text>
             <Text style={styles.price}>
-              57,600 
+              {item?.price} 
               <Text style={{fontWeight: '500', fontSize: 14}}> 원</Text>
             </Text>
           </View>
