@@ -8,5 +8,5 @@ None
 Json placholder
 
 ### other info
-shopify flashlist was used instead of the regular Flatlist as it is more suitable for render a large amount of items for the infinite scroll functionality
+shopify flashlist was used instead of the regular Flatlist, as it is more suitable for rendering a large amount of items for the infinite scroll functionality.
 
