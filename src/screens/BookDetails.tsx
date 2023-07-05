@@ -66,6 +66,14 @@ const BookDetails = ({navigation, route}) => {
     fetchData()
   }, [navigation]);
 
+  useEffect(() => { 
+    navigation.setOptions({
+      title: data?.title ? data?.title : 'Loading',
+      headerBackTitleVisible: false,
+      headerTintColor: '#313B49'
+    });
+  }, [navigation, data])
+
   const fetchData = async() => {
     try {
       setLoading(true);
@@ -73,11 +81,6 @@ const BookDetails = ({navigation, route}) => {
       // Simulate API call
       const response = await fetch(`https://jsonplaceholder.typicode.com/photos/${id}`);
       const newData = await response.json();
-      navigation.setOptions({
-        title: newData.title,
-        headerBackTitleVisible: false,
-        headerTintColor: '#313B49'
-      });
       setData(newData)
     }catch(error) {
       console.log('error fetching data', error)

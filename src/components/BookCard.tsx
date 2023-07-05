@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { sizes } from '../theme';
 
-const BookCard = ({item}) => {
+const BookCard = ({item, style}) => {
   const navigation = useNavigation();
 
   const handlPress = () => {
@@ -11,7 +11,7 @@ const BookCard = ({item}) => {
   }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handlPress}>
+    <TouchableOpacity style={[styles.container, style]} onPress={handlPress}>
       <View>
         <Image
           source={{uri: item?.url}}

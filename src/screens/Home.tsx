@@ -1,6 +1,7 @@
-import { SafeAreaView, StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator } from 'react-native'
+import { SafeAreaView, StyleSheet, View, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import BookCard from '../components/BookCard'
+import { FlashList } from "@shopify/flash-list";
 
 const DATA_PER_PAGE = 10; // Number of items to fetch per page
 const VIEWABILITY_THRESHOLD = 0.8; // Threshold for triggering data fetch
@@ -46,13 +47,13 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
+      <FlashList
         data={data}
         numColumns={2}
         ref={flatListRef}
-        columnWrapperStyle={{gap: 1}}
+        estimatedItemSize={10}
         keyExtractor={(item, i) => `${item?.id}-${i}`}
-        renderItem={({item}) => <BookCard item={item} />}
+        renderItem={({item, index}) => <BookCard item={item} style={{marginRight: index % 2 === 0 && 1}} />}
         onEndReached={fetchData}
         onEndReachedThreshold={0.8} // Define how close to the end before
         refreshControl={(
