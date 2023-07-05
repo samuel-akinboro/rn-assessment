@@ -4,6 +4,7 @@ import Comment from '../components/Comment';
 import { sizes } from '../theme';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import CommentForm from '../components/CommentForm';
 
 type BookDetailsRouteParams = {
   id: string;
@@ -11,12 +12,12 @@ type BookDetailsRouteParams = {
 
 type RootStackParamList = {
   Home: undefined;
-  BookDetails: { id: string };
+  'book-details': { id: string };
 };
 
-type BookDetailsNavigationProp = StackNavigationProp<RootStackParamList, 'BookDetails'>;
+type BookDetailsNavigationProp = StackNavigationProp<RootStackParamList, 'book-details'>;
 
-type BookDetailsRouteProp = RouteProp<RootStackParamList, 'BookDetails'>;
+type BookDetailsRouteProp = RouteProp<RootStackParamList, 'book-details'>;
 
 type Props = {
   navigation: BookDetailsNavigationProp;
@@ -182,19 +183,9 @@ const BookDetails: React.FC<Props> = ({navigation, route}) => {
         data={['', '', '']}
         renderItem={({item}) => <Comment />}
         ListHeaderComponent={Header}
+        showsVerticalScrollIndicator={false}
       />
-      <View style={styles.form}>
-        <TouchableOpacity>
-          <Image source={require('../../assets/images/image-icon.png')} style={styles.pickImageIcon} />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          placeholder='댓글을 남겨주세요.'
-        />
-        <TouchableOpacity>
-          <Text style={styles.sendBtnText}>등록</Text>
-        </TouchableOpacity>
-      </View>
+      <CommentForm />
     </SafeAreaView>
   )
 }
@@ -240,27 +231,5 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: '700',
     fontSize: 16
-  },
-  form: {
-    height: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 15
-  },
-  input: {
-    flex: 1,
-    height: '100%',
-    color: '#AFB9CA',
-    fontSize: 12,
-    paddingHorizontal: 15
-  },
-  pickImageIcon: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain'
-  },
-  sendBtnText: {
-    color: '#919EB6',
-    fontSize: 12
   }
 })

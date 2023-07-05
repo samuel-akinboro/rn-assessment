@@ -5,9 +5,15 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Home from './src/screens/Home';
 import BookDetails from './src/screens/BookDetails';
 
-export default function App() {
-  const Stack = createStackNavigator();
+type RootStackParamList = {
+  home: undefined;
+  'book-details': { id: string };
+};
 
+const Stack = createStackNavigator<RootStackParamList>();
+
+
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>

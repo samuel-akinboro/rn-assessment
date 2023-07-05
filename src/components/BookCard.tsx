@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { sizes } from '../theme';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
   item: {
@@ -16,8 +17,19 @@ type Props = {
   style: any
 }
 
+type RootStackParamList = {
+  Home: undefined;
+  'book-details': { id: string };
+};
+
+type BookDetailsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'book-details'
+>;
+
+
 const BookCard = ({item, style}: Props) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<BookDetailsScreenNavigationProp>();
 
   const handlPress = () => {
     navigation.navigate('book-details', {id: item?.id})
